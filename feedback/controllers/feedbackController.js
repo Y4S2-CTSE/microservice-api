@@ -31,7 +31,7 @@ exports.getFeedbackById = async (req, res) => {
   }
 };
 
-// UPDATE
+// UPDATE feedback
 exports.updateFeedback = async (req, res) => {
   try {
     const feedback = await Feedback.findByIdAndUpdate(req.params.id, req.body, { new: true });
