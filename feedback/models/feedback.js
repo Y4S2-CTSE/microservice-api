@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); //mongodb database
 
 const feedbackSchema = new mongoose.Schema({
   userName: { type: String, required: true },
