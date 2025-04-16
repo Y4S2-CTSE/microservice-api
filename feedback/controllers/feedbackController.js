@@ -42,7 +42,7 @@ exports.updateFeedback = async (req, res) => {
   }
 };
 
-// DELETE
+// DELETE feedback 
 exports.deleteFeedback = async (req, res) => {
   try {
     const feedback = await Feedback.findByIdAndDelete(req.params.id);
