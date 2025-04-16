@@ -20,7 +20,7 @@ exports.getAllFeedbacks = async (req, res) => {
   }
 };
 
-// READ ONE
+// READ ONE feedback by id
 exports.getFeedbackById = async (req, res) => {
   try {
     const feedback = await Feedback.findById(req.params.id);
