@@ -1,6 +1,6 @@
 const Feedback = require('../models/feedback');
 
-// CREATE
+// CREATE feedback
 exports.createFeedback = async (req, res) => {
   try {
     const feedback = await Feedback.create(req.body);
