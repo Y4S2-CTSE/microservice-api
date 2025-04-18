@@ -25,6 +25,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./feedback
+          file: ./feedback/Dockerfile
           push: true
           tags: thisaradewinda/feedback-service:latest
