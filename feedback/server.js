@@ -12,8 +12,12 @@ app.use('/api/feedbacks', feedbackRoutes);
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('Connected to MongoDB');
-    app.listen(process.env.PORT, () => {
-      console.log(`Server running on port ${process.env.PORT}`);
+    const port = process.env.PORT || 8080;
+    app.listen(port, () => {
+      console.log(`Server running on port ${port}`);
     });
   })
-  .catch((err) => console.error('DB connection error:', err));
+  .catch((err) => {
+    console.error('DB connection error:', err.message);
+    process.exit(1); 
+  });
