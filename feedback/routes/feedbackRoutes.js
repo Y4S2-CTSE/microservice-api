@@ -7,11 +7,12 @@ const {
   updateFeedback,
   deleteFeedback
 } = require('../controllers/feedbackController');
+const authenticateToken = require('../middleware/auth');
 
-router.post('/', createFeedback);
-router.get('/', getAllFeedbacks);
-router.get('/:id', getFeedbackById);
-router.put('/:id', updateFeedback);
-router.delete('/:id', deleteFeedback);
+router.post('/', authenticateToken, createFeedback);
+router.get('/', authenticateToken, getAllFeedbacks);
+router.get('/:id', authenticateToken, getFeedbackById);
+router.put('/:id', authenticateToken, updateFeedback);
+router.delete('/:id', authenticateToken, deleteFeedback);
 
 module.exports = router;

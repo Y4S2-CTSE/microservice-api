@@ -1,5 +1,5 @@
 {
-  "name": "feedback",
+  "name": "authentication",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
@@ -9,6 +9,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
