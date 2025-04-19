@@ -10,7 +10,8 @@ const {
 const authenticateToken = require('../middleware/auth');
 
 router.post('/', authenticateToken, createFeedback);
-router.get('/', authenticateToken, getAllFeedbacks);
+//router.get('/', authenticateToken, getAllFeedbacks);
+router.get('/', getAllFeedbacks);
 router.get('/:id', authenticateToken, getFeedbackById);
 router.put('/:id', authenticateToken, updateFeedback);
 router.delete('/:id', authenticateToken, deleteFeedback);
