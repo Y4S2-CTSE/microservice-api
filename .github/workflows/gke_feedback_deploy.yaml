@@ -57,7 +57,7 @@ jobs:
       - name: Deploy to GKE
         run: |
           # Substitute the placeholder in your Deployment manifest
-          sed -i "s|<BACKEND_IMAGE>|${{ env.IMAGE_TAG }}|g" deployment/backend-deployment.yaml
+          sed -i "s|<BACKEND_IMAGE>|${{ env.IMAGE_TAG }}|g" deployment/feedback-deployment.yaml
 
           # Apply all Kubernetes manifests (Mongo + Feedback service)
           kubectl apply -f deployment/ -n "${{ env.GKE_NAMESPACE }}"
