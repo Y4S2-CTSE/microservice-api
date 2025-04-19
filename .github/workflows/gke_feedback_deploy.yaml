@@ -14,7 +14,7 @@ env:
   GAR_NAME:      ${{ secrets.GAR_NAME }}
   GCR_SERVICE:   ${{ secrets.GCR_SERVICE }}
   # Full image path: <region>-docker.pkg.dev/<project>/<repo>/<service>:latest
-  IMAGE_TAG:     "${{ env.GAR_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_NAME }}/${{ env.GCR_SERVICE }}:latest"
+  IMAGE_TAG:     "${{ secrets.GAR_REGION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.GAR_NAME }}/${{ secrets.GCR_SERVICE }}:latest"
 
 jobs:
   deploy-backend:
