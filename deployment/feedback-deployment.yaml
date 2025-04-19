@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feedback-service
+  labels:
+    app: feedback-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feedback-service
+  template:
+    metadata:
+      labels:
+        app: feedback-service
+    spec:
+      containers:
+        - name: feedback-service
+          image: asia-southeast1-docker.pkg.dev/ctse-assignment1-457214/ctse-backend/feedback-service:latest    # CI will replace this
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+            - name: MONGO_URI
+              # point at the in-cluster MongoDB service:
+              value: "mongodb://mongodb:27017/test"
+            - name: JWT_SECRET
+              value: "CTSEOiiiii"
+          resources:
+            requests:
+              cpu:    "100m"
+              memory: "128Mi"
+            limits:
+              cpu:    "250m"
+              memory: "256Mi"

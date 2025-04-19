@@ -1,0 +1,71 @@
+name: Build and Deploy Feedback Service to GKE
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_ID:    ${{ secrets.PROJECT_ID }}
+  GKE_CLUSTER:   ${{ secrets.GKE_CLUSTER }}
+  GKE_ZONE:      ${{ secrets.GKE_ZONE }}
+  GKE_NAMESPACE: ${{ secrets.GKE_NAMESPACE }}
+  GAR_REGION:    ${{ secrets.GAR_REGION }}
+  GAR_NAME:      ${{ secrets.GAR_NAME }}
+  GCR_SERVICE:   ${{ secrets.GCR_SERVICE }}
+  # Full image path: <region>-docker.pkg.dev/<project>/<repo>/<service>:latest
+  IMAGE_TAG:     "${{ env.GAR_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_NAME }}/${{ env.GCR_SERVICE }}:latest"
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: "${{ secrets.GCP_CREDS }}"
+
+      - name: Set up gcloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Install GKE auth plugin
+        run: |
+          gcloud components install gke-gcloud-auth-plugin --quiet
+
+      - name: Configure Docker for GAR
+        run: |
+          gcloud auth configure-docker "${{ env.GAR_REGION }}-docker.pkg.dev" --quiet
+
+      - name: Build & Push Docker image
+        run: |
+          docker build --tag "${{ env.IMAGE_TAG }}" -f feedback/Dockerfile feedback/          
+          docker push "${{ env.IMAGE_TAG }}"
+
+      - name: Get GKE credentials
+        run: |
+          gcloud container clusters get-credentials "${{ env.GKE_CLUSTER }}" \
+            --zone "${{ env.GKE_ZONE }}" \
+            --project "${{ env.PROJECT_ID }}"
+
+      - name: Deploy to GKE
+        run: |
+          # Substitute the placeholder in your Deployment manifest
+          sed -i "s|<BACKEND_IMAGE>|${{ env.IMAGE_TAG }}|g" kubernetes/backend-deployment.yaml
+
+          # Apply all Kubernetes manifests (Mongo + Feedback service)
+          kubectl apply -f kubernetes/ -n "${{ env.GKE_NAMESPACE }}"
+
+      - name: Rollout restart
+        run: |
+          kubectl rollout restart deployment feedback-service -n "${{ env.GKE_NAMESPACE }}"
+
+      - name: Show service endpoint
+        run: |
+          kubectl get svc feedback-service -n "${{ env.GKE_NAMESPACE }}"
