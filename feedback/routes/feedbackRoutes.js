@@ -9,8 +9,9 @@ const {
 } = require('../controllers/feedbackController');
 const authenticateToken = require('../middleware/auth');
 
-router.post('/', authenticateToken, createFeedback);
+//router.post('/', authenticateToken, createFeedback);
 //router.get('/', authenticateToken, getAllFeedbacks);
+router.post('/', createFeedback);
 router.get('/', getAllFeedbacks);
 router.get('/:id', authenticateToken, getFeedbackById);
 router.put('/:id', authenticateToken, updateFeedback);
