@@ -1,6 +1,6 @@
 const Feedback = require('../models/feedback');
 
-// CREATE
+// CREATE feedback
 exports.createFeedback = async (req, res) => {
   try {
     const feedback = await Feedback.create(req.body);
@@ -20,7 +20,7 @@ exports.getAllFeedbacks = async (req, res) => {
   }
 };
 
-// READ ONE
+// READ ONE feedback by id
 exports.getFeedbackById = async (req, res) => {
   try {
     const feedback = await Feedback.findById(req.params.id);
@@ -31,7 +31,7 @@ exports.getFeedbackById = async (req, res) => {
   }
 };
 
-// UPDATE
+// UPDATE feedback
 exports.updateFeedback = async (req, res) => {
   try {
     const feedback = await Feedback.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -42,7 +42,7 @@ exports.updateFeedback = async (req, res) => {
   }
 };
 
-// DELETE
+// DELETE feedback 
 exports.deleteFeedback = async (req, res) => {
   try {
     const feedback = await Feedback.findByIdAndDelete(req.params.id);
