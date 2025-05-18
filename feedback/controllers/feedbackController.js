@@ -10,7 +10,7 @@ exports.createFeedback = async (req, res) => {
   }
 };
 
-// READ ALL
+// READ ALL feedbacks
 exports.getAllFeedbacks = async (req, res) => {
   try {
     const feedbacks = await Feedback.find();
